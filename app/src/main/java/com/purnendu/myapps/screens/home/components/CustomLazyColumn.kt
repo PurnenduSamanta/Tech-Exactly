@@ -1,6 +1,7 @@
 package com.purnendu.myapps.screens.home.components
 
 import androidx.compose.foundation.layout.Spacer
+import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.itemsIndexed
@@ -16,7 +17,7 @@ fun CustomLazyColumn(modifier: Modifier = Modifier,items: List<AppModel>) {
     {
         itemsIndexed(items = items){ index,item->
 
-            SingleAppItem(imageUrl = item.app_icon, appName = item.app_name, appPackageName = item.app_package_name)
+            SingleAppItem(modifier = Modifier.fillMaxWidth(), imageUrl = item.appIcon, appName = item.appName, appPackageName = item.appPackageName)
 
             if(index!=items.lastIndex)
                 Spacer(modifier = Modifier.height(5.dp))

@@ -1,6 +1,5 @@
 package com.purnendu.myapps.screens.home.components
 
-import androidx.compose.foundation.Image
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
@@ -16,8 +15,10 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.layout.ContentScale
+import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.unit.dp
 import coil.compose.AsyncImage
+import com.purnendu.myapps.R
 
 @Composable
 fun SingleAppItem(
@@ -27,23 +28,21 @@ fun SingleAppItem(
     modifier: Modifier = Modifier
 ) {
     Row(
-        modifier = Modifier
+        modifier = modifier
             .fillMaxWidth()
             .padding(5.dp),
         verticalAlignment = Alignment.CenterVertically
     )
     {
 
-
         AsyncImage(
             modifier = Modifier
                 .size(50.dp)
-                .clip(CircleShape)
-                ,
-            model = imageUrl,
+                .clip(CircleShape),
+            model =imageUrl,
+            placeholder = painterResource(id = R.drawable.loader),
             contentScale = ContentScale.Crop,
-            contentDescription = "AppIcon"
-        )
+            contentDescription = "AppIcon")
 
         Spacer(modifier = Modifier.width(5.dp))
 

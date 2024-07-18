@@ -16,7 +16,7 @@ import com.purnendu.myapps.screens.home.components.SingleAppItem
 fun ListingApps(modifier: Modifier = Modifier,items: List<AppModel>
 ) {
 
-    CustomLazyColumn(items=items)
+    CustomLazyColumn(modifier = modifier, items=items)
 
 
 }

@@ -7,7 +7,7 @@ import androidx.lifecycle.AndroidViewModel
 import androidx.lifecycle.viewModelScope
 import com.purnendu.myapps.networking.responseModel.AppListResponse
 import com.purnendu.myapps.utils.Response
-import com.sunanda.labassessment.networking.Retrofit
+import com.purnendu.myapps.networking.Retrofit
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import kotlin.random.Random

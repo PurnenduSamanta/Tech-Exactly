@@ -8,11 +8,14 @@ import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
+import androidx.compose.foundation.layout.WindowInsets
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
+import androidx.compose.foundation.layout.statusBars
 import androidx.compose.foundation.layout.width
+import androidx.compose.foundation.layout.windowInsetsPadding
 import androidx.compose.foundation.pager.HorizontalPager
 import androidx.compose.foundation.pager.rememberPagerState
 import androidx.compose.foundation.shape.CircleShape
@@ -21,6 +24,7 @@ import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Tab
 import androidx.compose.material3.TabRow
 import androidx.compose.material3.TabRowDefaults
+import androidx.compose.material3.TabRowDefaults.SecondaryIndicator
 import androidx.compose.material3.TabRowDefaults.tabIndicatorOffset
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
@@ -40,7 +44,6 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.purnendu.myapps.R
 import com.purnendu.myapps.models.AppModel
-import com.purnendu.myapps.networking.responseModel.AppListResponse
 import com.purnendu.myapps.utils.Constants.FIRST_TAB_NAME
 import com.purnendu.myapps.utils.Constants.SECOND_TAB_NAME
 import com.purnendu.myapps.utils.Response
@@ -82,10 +85,10 @@ fun HomeScreen(modifier: Modifier = Modifier,viewModel: HomeViewModel= androidx.
                 appsList.clear()
                 viewModel.response.value.data?.forEach {
                     appsList.add(AppModel(
-                        app_icon=it.app_icon,
-                        app_id= it.app_id,
-                        app_name=it.app_name,
-                        app_package_name=it.app_package_name
+                        appIcon=it.app_icon,
+                        appId= it.app_id,
+                        appName=it.app_name,
+                        appPackageName=it.app_package_name
                     ))
                 }
             }
@@ -118,6 +121,7 @@ fun HomeScreen(modifier: Modifier = Modifier,viewModel: HomeViewModel= androidx.
         topBar = {
             Row(
                 modifier = Modifier
+                    .windowInsetsPadding(WindowInsets.statusBars)
                     .fillMaxWidth()
                     .background(color = Color.Green.copy(alpha = 0.4f))
                     .padding(5.dp),
@@ -135,16 +139,16 @@ fun HomeScreen(modifier: Modifier = Modifier,viewModel: HomeViewModel= androidx.
 
                 Spacer(modifier = Modifier.width(10.dp))
 
-                Text(text = "Apps List", color = Color.White, fontSize = 20.sp, fontWeight = FontWeight.SemiBold)
+                Text(text = "My Apps", color = Color.White, fontSize = 20.sp, fontWeight = FontWeight.SemiBold)
             }
 
-        }) { innerPadding ->
+        },
+    ) { innerPadding ->
 
         Column(modifier = Modifier
             .padding(innerPadding)
             .fillMaxSize())
         {
-
 
             if(isProgressIndicatorVisible.value)
             {
@@ -157,26 +161,23 @@ fun HomeScreen(modifier: Modifier = Modifier,viewModel: HomeViewModel= androidx.
             }
 
 
-
             TabRow(
                 modifier = Modifier
                     .fillMaxWidth(),
-                containerColor = Color(0xFF039789),
+                containerColor = Color.Green.copy(alpha = 0.4f),
                 selectedTabIndex = pageState.currentPage,
                 indicator = { positionList ->
-                    TabRowDefaults.Indicator(
+                    SecondaryIndicator(
                         modifier = Modifier
                             .tabIndicatorOffset(positionList[pageState.currentPage]),
-                        color = Color(0xFFd22c16),
-                        height = 2.dp
+                        height = 2.dp,
+                        color = Color(0xFFd22c16)
                     )
                 }
             ) {
                 tabs.forEachIndexed { index, value ->
                     Tab(selected = pageState.currentPage == index, onClick = {
-                        coroutineScope.launch {
-                            pageState.animateScrollToPage(index)
-                        }
+                        coroutineScope.launch { pageState.animateScrollToPage(index) }
                     }, text = {
                         Text(text = value, color = Color.White)
                     }
@@ -186,17 +187,18 @@ fun HomeScreen(modifier: Modifier = Modifier,viewModel: HomeViewModel= androidx.
 
             Box(modifier = Modifier
                 .fillMaxSize()
-                .padding(5.dp))
+                .padding(horizontal = 5.dp))
             {
 
-                HorizontalPager(modifier = Modifier.fillMaxSize(), state = pageState, userScrollEnabled = true) { pageContentIndex ->
+                HorizontalPager(modifier = Modifier.fillMaxSize(), state = pageState, userScrollEnabled = true)
+                { pageContentIndex ->
                     when (pageContentIndex) {
                         0 -> {
-                            ListingApps(items =appsList.toList() )
+                            ListingApps(modifier = Modifier.fillMaxWidth(), items =appsList.toList() )
                         }
 
                         1 -> {
-                            SearchingApps(items =appsList.toList())
+                            SearchingApps(modifier = Modifier.fillMaxWidth(),items =appsList.toList())
                         }
                     }
                 }
