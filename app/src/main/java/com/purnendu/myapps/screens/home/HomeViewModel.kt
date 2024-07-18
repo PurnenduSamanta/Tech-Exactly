@@ -12,21 +12,18 @@ import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import kotlin.random.Random
 
-class HomeViewModel(private val application: Application) : AndroidViewModel(application) {
+class HomeViewModel(application: Application) : AndroidViewModel(application) {
 
 
-    private val _response: MutableState<Response<List<AppListResponse.Data.App>>> =
-        mutableStateOf(Response.Empty())
+    private val _response: MutableState<Response<List<AppListResponse.Data.App>>> = mutableStateOf(Response.Empty())
     val response get() = _response
-
 
     fun getApps() {
         try {
             _response.value = Response.Loading()
             viewModelScope.launch(Dispatchers.IO) {
 
-                val response =
-                    Retrofit.retrofitInstance.getApps(id = Random.nextInt(1, 501).toString())
+                val response = Retrofit.retrofitInstance.getApps(id = Random.nextInt(1, 501).toString())
 
                 if (response.isSuccessful && response.body() != null) {
                     val appsResponse = response.body() ?: return@launch
@@ -40,10 +37,7 @@ class HomeViewModel(private val application: Application) : AndroidViewModel(app
                         _response.value = Response.Error("Empty List found")
                         return@launch
                     }
-
                     _response.value = Response.Success(appsResponse.data.app_list)
-
-
                 } else if (response.errorBody() != null) {
                     throw Exception(response.message())
                 } else {

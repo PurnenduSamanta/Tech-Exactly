@@ -98,7 +98,7 @@ fun HomeScreen(modifier: Modifier = Modifier,viewModel: HomeViewModel= androidx.
                 Toast.makeText(context, data.message.toString(), Toast.LENGTH_SHORT).show()
             }
 
-            is Response.Empty -> {}
+            is Response.Empty -> {  isProgressIndicatorVisible.value = false}
         }
 
     }
@@ -113,6 +113,7 @@ fun HomeScreen(modifier: Modifier = Modifier,viewModel: HomeViewModel= androidx.
             return@LaunchedEffect
         }
 
+        //Getting Apps list
         viewModel.getApps()
 
     }
@@ -128,7 +129,6 @@ fun HomeScreen(modifier: Modifier = Modifier,viewModel: HomeViewModel= androidx.
                 verticalAlignment = Alignment.CenterVertically
             )
             {
-
                 Image(
                     modifier = Modifier
                         .size(50.dp)
