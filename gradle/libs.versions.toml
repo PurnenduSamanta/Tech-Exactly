@@ -1,20 +1,20 @@
 [versions]
-agp = "8.5.1"
-coilCompose = "2.6.0"
+agp = "8.7.3"
+coilCompose = "2.7.0"
 converterGson = "2.11.0"
 gson = "2.11.0"
-kotlin = "1.9.24"
-coreKtx = "1.13.1"
+kotlin = "2.1.0"
+coreKtx = "1.15.0"
 junit = "4.13.2"
 junitVersion = "1.2.1"
 espressoCore = "3.6.1"
-kotlinxCoroutinesAndroid = "1.8.1"
-kotlinxCoroutinesCore = "1.7.3"
-lifecycleRuntimeKtx = "2.8.3"
-activityCompose = "1.9.0"
-composeBom = "2024.06.00"
-lifecycleViewmodelCompose = "2.8.3"
-navigationCompose = "2.7.7"
+kotlinxCoroutinesAndroid = "1.10.1"
+kotlinxCoroutinesCore = "1.10.1"
+lifecycleRuntimeKtx = "2.8.7"
+activityCompose = "1.10.0"
+composeBom = "2025.01.00"
+lifecycleViewmodelCompose = "2.8.7"
+navigationCompose = "2.8.5"
 retrofit = "2.11.0"
 
 [libraries]
@@ -44,4 +44,5 @@ retrofit = { module = "com.squareup.retrofit2:retrofit", version.ref = "retrofit
 [plugins]
 android-application = { id = "com.android.application", version.ref = "agp" }
 jetbrains-kotlin-android = { id = "org.jetbrains.kotlin.android", version.ref = "kotlin" }
+compose-compiler = { id = "org.jetbrains.kotlin.plugin.compose", version.ref = "kotlin" }
 

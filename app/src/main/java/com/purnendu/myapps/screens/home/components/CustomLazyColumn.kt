@@ -17,10 +17,10 @@ fun CustomLazyColumn(modifier: Modifier = Modifier,items: List<AppModel>) {
     {
         itemsIndexed(items = items){ index,item->
 
-            SingleAppItem(modifier = Modifier.fillMaxWidth(), imageUrl = item.appIcon, appName = item.appName, appPackageName = item.appPackageName)
+            SingleAppItem(modifier = Modifier.fillMaxWidth(), imageUrl = item.appIcon, appName = item.appName, status = item.status)
 
             if(index!=items.lastIndex)
-                Spacer(modifier = Modifier.height(5.dp))
+                Spacer(modifier = Modifier.height(20.dp))
 
         }
     }

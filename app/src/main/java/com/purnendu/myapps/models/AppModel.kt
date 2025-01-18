@@ -5,4 +5,5 @@ data class AppModel(
     val appId: Int,
     val appName: String,
     val appPackageName: String,
+    val status:String
 )

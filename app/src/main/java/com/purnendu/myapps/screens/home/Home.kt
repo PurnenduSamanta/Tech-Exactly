@@ -1,29 +1,30 @@
 package com.purnendu.myapps.screens.home
 
 import android.widget.Toast
-import androidx.compose.foundation.ExperimentalFoundationApi
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
-import androidx.compose.foundation.layout.WindowInsets
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
-import androidx.compose.foundation.layout.statusBars
 import androidx.compose.foundation.layout.width
-import androidx.compose.foundation.layout.windowInsetsPadding
 import androidx.compose.foundation.pager.HorizontalPager
 import androidx.compose.foundation.pager.rememberPagerState
 import androidx.compose.foundation.shape.CircleShape
+import androidx.compose.foundation.shape.RoundedCornerShape
+import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.automirrored.filled.KeyboardArrowLeft
+import androidx.compose.material.icons.filled.Done
 import androidx.compose.material3.CircularProgressIndicator
+import androidx.compose.material3.Icon
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Tab
 import androidx.compose.material3.TabRow
-import androidx.compose.material3.TabRowDefaults
 import androidx.compose.material3.TabRowDefaults.SecondaryIndicator
 import androidx.compose.material3.TabRowDefaults.tabIndicatorOffset
 import androidx.compose.material3.Text
@@ -39,7 +40,6 @@ import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
-import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.purnendu.myapps.R
@@ -50,9 +50,8 @@ import com.purnendu.myapps.utils.Response
 import com.purnendu.myapps.utils.isNetworkAvailable
 import kotlinx.coroutines.launch
 
-@OptIn(ExperimentalFoundationApi::class)
 @Composable
-fun HomeScreen(modifier: Modifier = Modifier,viewModel: HomeViewModel= androidx.lifecycle.viewmodel.compose.viewModel()) {
+fun HomeScreen(viewModel: HomeViewModel= androidx.lifecycle.viewmodel.compose.viewModel()) {
 
 
     val pageState = rememberPagerState(
@@ -88,7 +87,8 @@ fun HomeScreen(modifier: Modifier = Modifier,viewModel: HomeViewModel= androidx.
                         appIcon=it.app_icon,
                         appId= it.app_id,
                         appName=it.app_name,
-                        appPackageName=it.app_package_name
+                        appPackageName=it.app_package_name,
+                        status = it.status
                     ))
                 }
             }
@@ -118,33 +118,9 @@ fun HomeScreen(modifier: Modifier = Modifier,viewModel: HomeViewModel= androidx.
 
     }
 
-    Scaffold(modifier = Modifier.fillMaxSize(),
-        topBar = {
-            Row(
-                modifier = Modifier
-                    .windowInsetsPadding(WindowInsets.statusBars)
-                    .fillMaxWidth()
-                    .background(color = Color.Green.copy(alpha = 0.4f))
-                    .padding(5.dp),
-                verticalAlignment = Alignment.CenterVertically
-            )
-            {
-                Image(
-                    modifier = Modifier
-                        .size(50.dp)
-                        .clip(CircleShape),
-                    painter = painterResource(id = R.drawable.avatar),
-                    contentDescription ="avatar"
-                )
-
-                Spacer(modifier = Modifier.width(10.dp))
-
-                Text(text = "My Apps", color = Color.White, fontSize = 20.sp, fontWeight = FontWeight.SemiBold)
-            }
-
-        },
-    ) { innerPadding ->
-
+    Scaffold(modifier = Modifier.fillMaxSize(), containerColor = Color(0xFF48bd77))
+    {
+        innerPadding ->
         Column(modifier = Modifier
             .padding(innerPadding)
             .fillMaxSize())
@@ -160,57 +136,101 @@ fun HomeScreen(modifier: Modifier = Modifier,viewModel: HomeViewModel= androidx.
                 return@Scaffold
             }
 
+            Column(modifier = Modifier.fillMaxWidth().padding(horizontal = 10.dp)) {
 
-            TabRow(
-                modifier = Modifier
-                    .fillMaxWidth(),
-                containerColor = Color.Green.copy(alpha = 0.4f),
+                Icon(
+                    Icons.AutoMirrored.Filled.KeyboardArrowLeft,
+                    tint = Color.White,
+                    contentDescription = "leftArrow")
+
+                Image(
+                    modifier = Modifier
+                        .align(Alignment.CenterHorizontally)
+                        .size(80.dp)
+                        .clip(CircleShape),
+                    painter = painterResource(id = R.drawable.avatar),
+                    contentDescription ="avatar"
+                )
+
+                Spacer(modifier = Modifier.height(10.dp))
+
+                Text(
+                    modifier = Modifier.align(Alignment.CenterHorizontally),
+                    text="Suvojit",
+                    color = Color.White,
+                    fontSize = 30.sp)
+
+                Spacer(modifier = Modifier.height(10.dp))
+
+
+                Box(modifier = Modifier.align(Alignment.CenterHorizontally).background(color = Color.White, shape = RoundedCornerShape(40.dp)))
+                {
+                    Row(modifier = Modifier.padding(horizontal = 20.dp, vertical = 5.dp), verticalAlignment = Alignment.CenterVertically)
+                    {
+                        Text("Connected", fontSize = 13.sp, color = Color.Black)
+
+                        Spacer(modifier = Modifier.width(10.dp))
+
+                        Box(modifier = Modifier.background(color = Color(0xFF48bd77), shape = CircleShape).clip(CircleShape).padding(2.dp), contentAlignment = Alignment.Center)
+                        {
+                            Icon(Icons.Default.Done, tint = Color.White, contentDescription = "connected")
+                        }
+
+                    }
+                }
+
+                Spacer(modifier = Modifier.height(20.dp))
+
+            }
+
+            TabRow  (
+                modifier = Modifier.fillMaxWidth(),
+                containerColor = Color(0xFF48bd77),
                 selectedTabIndex = pageState.currentPage,
                 indicator = { positionList ->
-                    SecondaryIndicator(
-                        modifier = Modifier
-                            .tabIndicatorOffset(positionList[pageState.currentPage]),
-                        height = 2.dp,
-                        color = Color(0xFFd22c16)
-                    )
-                }
+                        SecondaryIndicator(
+                            modifier = Modifier
+                                .tabIndicatorOffset(positionList[pageState.currentPage]),
+                            height = 2.dp,
+                            color = Color.White
+                        )
+
+                },
             ) {
-                tabs.forEachIndexed { index, value ->
-                    Tab(selected = pageState.currentPage == index, onClick = {
-                        coroutineScope.launch { pageState.animateScrollToPage(index) }
-                    }, text = {
-                        Text(text = value, color = Color.White)
+                    tabs.forEachIndexed { index, value ->
+                        Tab(selected = pageState.currentPage == index, onClick = {
+                            coroutineScope.launch { pageState.animateScrollToPage(index) }
+                        }, text =
+                        {
+                            Text(text = value, color = Color.White)
+                        }
+                        )
                     }
-                    )
-                }
+
             }
 
             Box(modifier = Modifier
-                .fillMaxSize()
-                .padding(horizontal = 5.dp))
+                .fillMaxWidth()
+                .background(color = Color.White))
             {
 
-                HorizontalPager(modifier = Modifier.fillMaxSize(), state = pageState, userScrollEnabled = true)
+                HorizontalPager(modifier = Modifier.fillMaxWidth(), state = pageState, userScrollEnabled = true)
                 { pageContentIndex ->
                     when (pageContentIndex) {
                         0 -> {
-                            ListingApps(modifier = Modifier.fillMaxWidth(), items =appsList.toList() )
+                            Applications(modifier = Modifier.fillMaxWidth(), items =appsList.toList() )
                         }
 
                         1 -> {
-                            SearchingApps(modifier = Modifier.fillMaxWidth(),items =appsList.toList())
+                            Settings(modifier = Modifier.fillMaxWidth())
                         }
                     }
                 }
 
-
             }
-
 
         }
 
-
     }
-
 
 }
