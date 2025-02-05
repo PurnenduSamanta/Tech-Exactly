@@ -12,13 +12,14 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.unit.dp
+import com.purnendu.myapps.cameraApp.Camera
 import com.purnendu.myapps.screens.drawings.MusicKnob
 import com.purnendu.myapps.ui.theme.MyAppsTheme
 
 class MainActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        enableEdgeToEdge()
+        //enableEdgeToEdge()
         setContent {
             MyAppsTheme {
                 //HomeScreen()
@@ -30,7 +31,9 @@ class MainActivity : ComponentActivity() {
                     //Instagram()
                     //DroidIcon()
                     //SpotifyIcon()
-                    MusicKnob(modifier = Modifier.size(300.dp)) {  }
+                    //MusicKnob(modifier = Modifier.size(300.dp)) {  }
+
+                    Camera(modifier = Modifier.fillMaxSize())
                 }
 
             }
